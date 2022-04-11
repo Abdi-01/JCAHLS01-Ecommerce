@@ -14,36 +14,46 @@ import Form from '../Components/Form'
 // Initialize component
 // let counter = 0;
 class LandingPage extends React.Component {
+    // Urutan render component 1️⃣ CONSTRUCTOR
     // untuk memanage data yg akan digunakan pada component react
     constructor(props) {
+        console.log("1️⃣ Constructor")
         super(props);
         // local data management
         this.state = {
             counter: 0,
             input: "",
-            dbStudent: [
-                {
-                    id: 1,
-                    name: "Abdi",
-                    class: "JC-Full Stack",
-                    time: "After-hour",
-                    job: "Product Manager",
-                    age: 26
-                },
-                {
-                    id: 2,
-                    name: "Edo",
-                    class: "JC-Full Stack",
-                    time: "After-hour",
-                    job: "Product Manager",
-                    age: 26
-                },
-            ]
+            dbStudent: []
         }
     }
 
+    // Urutan render component 3️⃣ componentDidMount
+    // untuk menjalankan fungsi pertama kali ketika component dirender
+    componentDidMount() {
+        console.log("3️⃣ componentDidMount")
+        let dataServer = [
+            {
+                id: 1,
+                name: "Abdi",
+                class: "JC-Full Stack",
+                time: "After-hour",
+                job: "Product Manager",
+                age: 26
+            },
+            {
+                id: 2,
+                name: "Edo",
+                class: "JC-Full Stack",
+                time: "After-hour",
+                job: "Product Manager",
+                age: 26
+            },
+        ]
+        this.setState({ dbStudent: dataServer})
+    }
+
     printData = () => {
-        let htmlElement= this.state.dbStudent.map((value, index) => {
+        let htmlElement = this.state.dbStudent.map((value, index) => {
             return <tr>
                 <td>{index + 1}</td>
                 <td>{value.name}</td>
@@ -87,8 +97,10 @@ class LandingPage extends React.Component {
         this.setState({ input: event.target.value })
     }
 
+    // Urutan render component 2️⃣ render()
     // mengenerate component html
     render() {
+        console.log("2️⃣ Render")
         // destructering state
         const { counter, input } = this.state;
         // return html component
