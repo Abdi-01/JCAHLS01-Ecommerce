@@ -13,7 +13,6 @@ function App() {
   return (
     <div>
       <Navbar />
-      <h3>App js</h3>
       <LandingPage />
     </div>
   );

@@ -1,5 +1,10 @@
 import React from 'react'; // untuk mengaktifkan library react
-import Form from '../Components/Form'
+import Form from '../Components/Form';
+import Banner from '../Components/Banner';
+import { Button, CardBody } from 'reactstrap';
+import Axios from 'axios';
+
+const API_URL = "http://localhost:5000";
 /**
  * React Data Management :
  * 1️⃣. state : 
@@ -21,80 +26,26 @@ class LandingPage extends React.Component {
         super(props);
         // local data management
         this.state = {
-            counter: 0,
-            input: "",
-            dbStudent: []
+            dbBanner: []
         }
     }
 
     // Urutan render component 3️⃣ componentDidMount
     // untuk menjalankan fungsi pertama kali ketika component dirender
     componentDidMount() {
-        console.log("3️⃣ componentDidMount")
-        let dataServer = [
-            {
-                id: 1,
-                name: "Abdi",
-                class: "JC-Full Stack",
-                time: "After-hour",
-                job: "Product Manager",
-                age: 26
-            },
-            {
-                id: 2,
-                name: "Edo",
-                class: "JC-Full Stack",
-                time: "After-hour",
-                job: "Product Manager",
-                age: 26
-            },
-        ]
-        this.setState({ dbStudent: dataServer})
+        this.getBanner();
     }
 
-    printData = () => {
-        let htmlElement = this.state.dbStudent.map((value, index) => {
-            return <tr>
-                <td>{index + 1}</td>
-                <td>{value.name}</td>
-                <td>{value.class}</td>
-                <td>{value.time}</td>
-                <td>{value.job}</td>
-            </tr>
-        })
-
-        return htmlElement
-    }
-
-    // Membuat fungsi didalam class component
-    btnIncrement = () => {
-        let temp = this.state.counter;
-        temp++;
-        this.setState({
-            counter: temp
-        })
-        // counter++;
-        // console.log(counter);
-    }
-
-    btnDecrement = () => {
-        let temp = this.state.counter;
-        temp--;
-        this.setState({
-            counter: temp
-        })
-        // counter--;
-        // console.log(counter);
-    }
-
-    btnSubmit = () => {
-        console.log(this.refs.inValue);
-        this.setState({ input: this.refs.inValue.value })
-    }
-
-    handleInput = (event) => {
-        console.log(event.target)
-        this.setState({ input: event.target.value })
+    getBanner = () => {
+        Axios.get(`${API_URL}/banner`)
+            .then((response) => {
+                // jika berhasil mendapatkan response
+                console.log("From Class COmponent :",response.data);
+                this.setState({ dbBanner: response.data })
+            }).catch((error) => {
+                // jika tidak berhasil mendapatkan response
+                console.log(error);
+            })
     }
 
     // Urutan render component 2️⃣ render()
@@ -106,32 +57,42 @@ class LandingPage extends React.Component {
         // return html component
         return (
             <div>
-                <span>Value from state input :</span>
-                <h4>{input}</h4>
-                <button type='button' onClick={this.btnDecrement}>Decrement</button>
-                <span style={{ fontSize: "24px", margin: "0px 8px" }}>
-                    {counter}
-                </span>
-                <button type='button' onClick={this.btnIncrement}>Increment</button>
-                <table className='table'>
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Name</th>
-                            <th>Class</th>
-                            <th>Time</th>
-                            <th>Job</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.printData()}
-                    </tbody>
-                </table>
-                <Form
-                    title="Data Form Input"
-                    handleInput={this.handleInput}
-                    btnSubmit={this.btnSubmit}
-                />
+                <Banner bannerList={this.state.dbBanner} />
+                <div className='container'>
+                    <div className='row'>
+                        <div className='col-12 col-md-4 text-center'>
+                            <CardBody>
+                                <img className='rounded-circle' src='https://miro.medium.com/max/598/0*8or0oFmHDRKnlETg' width="180px" />
+                                <h3>Category 1</h3>
+                                <p>
+                                    Some representative placeholder content for the three columns of text below the carousel. This is the first column.
+                                </p>
+                                <Button color='secondary'>Detail</Button>
+                            </CardBody>
+                        </div>
+                        <div className='col-12 col-md-4 text-center'>
+                            <CardBody>
+                                <img className='rounded-circle' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYDSSjj7hEq0mET7eL8cjwNWrXhSmW0dWHT2X8UBV-u8wDONeAMBnZ28JNQpSMy3UJu-s&usqp=CAU' width="180px" />
+                                <h3>Category 2</h3>
+                                <p>
+                                    Some representative placeholder content for the three columns of text below the carousel. This is the first column.
+                                </p>
+                                <Button color='secondary'>Detail</Button>
+                            </CardBody>
+                        </div>
+                        <div className='col-12 col-md-4 text-center'>
+                            <CardBody>
+                                <img className='rounded-circle' src='https://miro.medium.com/max/598/0*8or0oFmHDRKnlETg' width="180px" />
+                                <h3>Category 3</h3>
+                                <p>
+                                    Some representative placeholder content for the three columns of text below the carousel. This is the first column.
+                                </p>
+                                <Button color='secondary'>Detail</Button>
+                            </CardBody>
+                        </div>
+                    </div>
+                    <hr />
+                </div>
             </div>
         )
     }

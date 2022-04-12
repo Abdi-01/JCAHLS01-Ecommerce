@@ -6,8 +6,8 @@ const NavbarComponent = (props) => {
     const [openCollapse, setOpenCollapse] = React.useState(false)
 
     return (
-        <div>
-            <Navbar color='light' light expand="md">
+        <div className='bg-light'>
+            <Navbar color='light' className='container' light expand="md">
                 <NavbarBrand>
                     <span className='fw-bold'>
                         Commerce
