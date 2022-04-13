@@ -2,7 +2,11 @@ import React from 'react';
 import { Navbar, NavbarBrand, NavbarToggler, Collapse, Nav, NavItem, NavbarText, ButtonGroup, Button } from 'reactstrap';
 import ModalLogin from './ModalLogin';
 
+import { Link, useNavigate } from 'react-router-dom';
+
 const NavbarComponent = (props) => {
+
+    const navigate = useNavigate();
 
     const [openCollapse, setOpenCollapse] = React.useState(false)
     const [openLogin, setOpenLogin] = React.useState(false)
@@ -14,7 +18,7 @@ const NavbarComponent = (props) => {
                 toggleOpen={() => setOpenLogin(!openLogin)}
             />
             <Navbar color='light' className='container' light expand="md">
-                <NavbarBrand>
+                <NavbarBrand style={{ cursor: "pointer" }} onClick={() => navigate("/")}>
                     <span className='fw-bold'>
                         Commerce
                     </span>
@@ -26,9 +30,11 @@ const NavbarComponent = (props) => {
                         navbar
                     >
                         <NavItem>
-                            <span className='nav-link'>
-                                Products
-                            </span>
+                            <Link to="/products" className='nav-link'>
+                                <span >
+                                    Products
+                                </span>
+                            </Link>
                         </NavItem>
                         <NavItem>
                             <span className='nav-link'>
@@ -43,7 +49,13 @@ const NavbarComponent = (props) => {
                                 onClick={() => setOpenLogin(!openLogin)}>
                                 Login
                             </Button>
-                            <Button color='secondary' outline>Register</Button>
+                            <Button type='button'
+                                color='secondary'
+                                outline
+                                onClick={() => navigate("/register")}
+                            >
+                                Register
+                            </Button>
                         </ButtonGroup>
                     </NavbarText>
                 </Collapse>
