@@ -1,10 +1,10 @@
 import React from 'react'; // untuk mengaktifkan library react
-import Form from '../Components/Form';
+// import Form from '../Components/Form';
 import Banner from '../Components/Banner';
 import { Button, CardBody } from 'reactstrap';
 import Axios from 'axios';
+import { API_URL } from '../helper';
 
-const API_URL = "http://localhost:5000";
 /**
  * React Data Management :
  * 1️⃣. state : 
@@ -40,7 +40,7 @@ class LandingPage extends React.Component {
         Axios.get(`${API_URL}/banner`)
             .then((response) => {
                 // jika berhasil mendapatkan response
-                console.log("From Class COmponent :",response.data);
+                console.log("From Class COmponent :", response.data);
                 this.setState({ dbBanner: response.data })
             }).catch((error) => {
                 // jika tidak berhasil mendapatkan response
@@ -57,7 +57,9 @@ class LandingPage extends React.Component {
         // return html component
         return (
             <div>
-                <Banner bannerList={this.state.dbBanner} />
+                <div style={{ backgroundColor: "#97A0B0" }}>
+                    <Banner bannerList={this.state.dbBanner} />
+                </div>
                 <div className='container'>
                     <div className='row'>
                         <div className='col-12 col-md-4 text-center'>

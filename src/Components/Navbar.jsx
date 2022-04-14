@@ -19,9 +19,7 @@ const NavbarComponent = (props) => {
             />
             <Navbar color='light' className='container' light expand="md">
                 <NavbarBrand style={{ cursor: "pointer" }} onClick={() => navigate("/")}>
-                    <span className='fw-bold'>
-                        Commerce
-                    </span>
+                    <img src={require("../Assets/logo.png")} width="100px" alt='logo-commerce'/>
                 </NavbarBrand>
                 <NavbarToggler onClick={() => setOpenCollapse(!openCollapse)} />
                 <Collapse navbar isOpen={openCollapse}>
@@ -45,7 +43,7 @@ const NavbarComponent = (props) => {
                     <NavbarText>
                         <ButtonGroup>
                             <Button type='button'
-                                color='primary'
+                                color='secondary'
                                 onClick={() => setOpenLogin(!openLogin)}>
                                 Login
                             </Button>

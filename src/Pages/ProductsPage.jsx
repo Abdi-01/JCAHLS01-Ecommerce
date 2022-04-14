@@ -1,8 +1,7 @@
 import React from 'react';
 import Axios from 'axios';
 import { Card, CardBody, CardImg, CardTitle } from 'reactstrap';
-
-const API_URL = "http://localhost:5000";
+import { API_URL } from '../helper';
 
 const ProductsPage = (props) => {
 
@@ -27,11 +26,17 @@ const ProductsPage = (props) => {
     const printProducts = () => {
         return dbProducts.map((value, index) => {
             return <div key={value.id} className="col-12 col-md-6 col-lg-4 p-2">
-                <Card className='border-0 shadow-sm'>
-                    <CardImg src={value.images[0]} />
+                <Card className='border-0 bg-transparent'>
+                    <CardImg
+                        className='shadow'
+                        style={{ borderRadius: "15px" }}
+                        src={value.images[0]} />
                     <CardBody>
-                        <h6 className='fw-bold'>{value.nama}</h6>
-                        <h5 className='fw-bold' style={{ textAlign: "right", color: "#00a8ff" }}>IDR. {value.harga.toLocaleString()}</h5>
+                        <h6 className='fw-bold text-center my-0'>{value.nama}</h6>
+                        <p className='text-muted text-center my-0'>{value.kategori}</p>
+                        <h4 className='fw-bold text-center' style={{ color: "#9E887E" }}>
+                            IDR. {value.harga.toLocaleString()}
+                        </h4>
                     </CardBody>
                 </Card>
             </div>
@@ -40,7 +45,7 @@ const ProductsPage = (props) => {
 
     return (
         <div>
-            <div className='container py-3 my-2 my-md-4'>
+            <div className='container py-3'>
                 <div className='row'>
                     <div className='col-12 col-md-3'>
                         <h5>Filter</h5>

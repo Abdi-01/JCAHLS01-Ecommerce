@@ -24,9 +24,12 @@ const Banner = (props) => {
     }
 
     return (
-        <UncontrolledCarousel
-            items={bannerList}
-        />
+        <div className='container'>
+            <UncontrolledCarousel
+                className='shadow-sm'
+                items={bannerList}
+            />
+        </div>
     )
 }
 
