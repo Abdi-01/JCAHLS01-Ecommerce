@@ -2,9 +2,10 @@ import React from 'react';
 import Axios from 'axios';
 import { Card, CardBody, CardImg, CardTitle } from 'reactstrap';
 import { API_URL } from '../helper';
+import { useNavigate } from 'react-router-dom';
 
 const ProductsPage = (props) => {
-
+    const navigate = useNavigate();
     const [dbProducts, setDbProducts] = React.useState([])
 
     React.useEffect(() => {
@@ -28,6 +29,11 @@ const ProductsPage = (props) => {
             return <div key={value.id} className="col-12 col-md-6 col-lg-4 p-2">
                 <Card className='border-0 bg-transparent'>
                     <CardImg
+                        onClick={() => navigate(`/product/detail?id=${value.id}`)}
+
+                        // onClick={() => navigate('/product/detail', {
+                        //     state: value
+                        // })}
                         className='shadow'
                         style={{ borderRadius: "15px" }}
                         src={value.images[0]} />

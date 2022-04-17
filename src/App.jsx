@@ -6,6 +6,7 @@ import Navbar from './Components/Navbar';
 import RegisterPage from './Pages/RegisterPage';
 import ProductsPage from './Pages/ProductsPage';
 import ProductsAdmin from './Pages/ProductsAdmin';
+import ProductDetail from './Pages/ProductDetail';
 // FUNCTIONAL COMPONENT
 // Initialize component
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path='/register' element={<RegisterPage />} />
         <Route path='/products' element={<ProductsPage />} />
         <Route path='/products/admin' element={<ProductsAdmin />} />
+        <Route path='/product/detail' element={<ProductDetail />} />
       </Routes>
     </div>
   );
