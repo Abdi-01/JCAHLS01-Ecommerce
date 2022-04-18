@@ -8,8 +8,8 @@ const ProductsPage = (props) => {
     const navigate = useNavigate();
     const [dbProducts, setDbProducts] = React.useState([]);
     const [filterName, setFilterName] = React.useState("");
-    const [filterMin, setFilterMin] = React.useState(0);
-    const [filterMax, setFilterMax] = React.useState(0);
+    const [filterMin, setFilterMin] = React.useState(null);
+    const [filterMax, setFilterMax] = React.useState(null);
 
     React.useEffect(() => {
         getProducts();
@@ -52,11 +52,19 @@ const ProductsPage = (props) => {
         })
     }
 
+    const handleReset = () => {
+        getProducts();
+        setFilterName("");
+        setFilterMin(null);
+        setFilterMax(null);
+    }
+
     // Cara 1
     const handleFilter = () => {
         Axios.get(`${API_URL}/products?nama=${filterName}`)
             .then((res) => {
                 console.log(res.data);
+                setDbProducts(res.data);
             }).catch((err) => {
                 console.log(err)
             })
@@ -81,13 +89,13 @@ const ProductsPage = (props) => {
                             <div className='row' style={{ justifyContent: "space-around" }}>
                                 <FormGroup>
                                     <Label>Nama</Label>
-                                    <Input type="text" id="text" onChange={(e) => setFilterName(e.target.value)} placeholder="Cari produk" />
+                                    <Input type="text" value={filterName} id="text" onChange={(e) => setFilterName(e.target.value)} placeholder="Cari produk" />
                                 </FormGroup>
                                 <FormGroup>
                                     <Label>Harga</Label>
                                     <div className="d-flex">
-                                        <Input type="number" id="numb1" onChange={(e) => setFilterMin(parseInt(e.target.value))} placeholder="Minimum" />
-                                        <Input type="number" id="numb2" onChange={(e) => setFilterMax(parseInt(e.target.value))} placeholder="Maksimum" />
+                                        <Input type="number" id="numb1" value={filterMin} onChange={(e) => setFilterMin(parseInt(e.target.value))} placeholder="Minimum" />
+                                        <Input type="number" id="numb2" value={filterMax} onChange={(e) => setFilterMax(parseInt(e.target.value))} placeholder="Maksimum" />
                                     </div>
                                 </FormGroup>
                                 <FormGroup>
@@ -103,7 +111,7 @@ const ProductsPage = (props) => {
 
                             </div>
                             <div className="pt-2" style={{ textAlign: "end" }}>
-                                <Button outline color="warning" type='button' onClick={getProducts} >Reset</Button>
+                                <Button outline color="warning" type='button' onClick={handleReset} >Reset</Button>
                                 <Button type='button'
                                     style={{ marginLeft: 16 }}
                                     color="primary" onClick={handleFilter}>
