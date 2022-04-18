@@ -83,9 +83,7 @@ const ProductDetail = (props) => {
                                                         style={{ width: '100%', border: 'none', textAlign: 'left' }}
                                                         onClick={() => {
                                                             setSelectedType(item)
-                                                            // setQty(1)
-                                                        }
-                                                        }
+                                                        }}
                                                     > {item.type} : {item.qty}</Button>
                                                 </div>
                                             )
