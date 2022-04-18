@@ -61,7 +61,7 @@ const ProductsPage = (props) => {
         setOrderData("null");
     }
 
-    console.log(filterMin, filterMax)
+    // console.log(filterMin, filterMax)
 
     // Cara 1
     // const handleFilter = () => {
