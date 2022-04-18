@@ -10,6 +10,7 @@ const ProductsPage = (props) => {
     const [filterName, setFilterName] = React.useState("");
     const [filterMin, setFilterMin] = React.useState("");
     const [filterMax, setFilterMax] = React.useState("");
+    const [orderData, setOrderData] = React.useState("null");
 
     React.useEffect(() => {
         getProducts();
@@ -57,6 +58,7 @@ const ProductsPage = (props) => {
         setFilterName("");
         setFilterMin("");
         setFilterMax("");
+        setOrderData("null");
     }
 
     console.log(filterMin, filterMax)
@@ -110,6 +112,23 @@ const ProductsPage = (props) => {
         }
     }
 
+    const handleSort = (event) => {
+        console.log(event.target.value);
+        if (event.target.value != "null") {
+            setOrderData(event.target.value);
+            let property = event.target.value.split("-")[0];
+            let order = event.target.value.split("-")[1];
+            Axios.get(`${API_URL}/products?_sort=${property}&_order=${order}`)
+                .then((res) => {
+                    console.log(res.data);
+                    setDbProducts(res.data);
+                }).catch((err) => {
+                    console.log(err)
+                })
+        }
+    }
+
+
     return (
         <div>
             <div className='container py-3'>
@@ -131,12 +150,12 @@ const ProductsPage = (props) => {
                                 </FormGroup>
                                 <FormGroup>
                                     <Label>Sort</Label>
-                                    <Input type="select" style={{ width: "250px" }} >
-                                        <option value="price-asc">Harga Asc</option>
-                                        <option value="price-desc">Harga Desc</option>
-                                        <option value="name-asc">A-Z</option>
-                                        <option value="name-desc">Z-A</option>
-                                        <option value="idproduct-asc">Reset</option>
+                                    <Input type="select" value={orderData} style={{ width: "250px" }} onChange={handleSort}>
+                                        <option value="null">Pilih order</option>
+                                        <option value="harga-asc">Harga Asc</option>
+                                        <option value="harga-desc">Harga Desc</option>
+                                        <option value="nama-asc">A-Z</option>
+                                        <option value="nama-desc">Z-A</option>
                                     </Input>
                                 </FormGroup>
 
