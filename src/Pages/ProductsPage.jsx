@@ -8,8 +8,8 @@ const ProductsPage = (props) => {
     const navigate = useNavigate();
     const [dbProducts, setDbProducts] = React.useState([]);
     const [filterName, setFilterName] = React.useState("");
-    const [filterMin, setFilterMin] = React.useState(null);
-    const [filterMax, setFilterMax] = React.useState(null);
+    const [filterMin, setFilterMin] = React.useState("");
+    const [filterMax, setFilterMax] = React.useState("");
 
     React.useEffect(() => {
         getProducts();
@@ -55,29 +55,60 @@ const ProductsPage = (props) => {
     const handleReset = () => {
         getProducts();
         setFilterName("");
-        setFilterMin(null);
-        setFilterMax(null);
+        setFilterMin("");
+        setFilterMax("");
     }
+
+    console.log(filterMin, filterMax)
 
     // Cara 1
-    const handleFilter = () => {
-        Axios.get(`${API_URL}/products?nama=${filterName}`)
-            .then((res) => {
-                console.log(res.data);
-                setDbProducts(res.data);
-            }).catch((err) => {
-                console.log(err)
-            })
-    }
+    // const handleFilter = () => {
+    //     let filterQuery = `?`;
+    //     if (filterName) {
+    //         if (filterMax > 0 && filterMin > 0) {
+    //             // Kondisi jika form nama dan harga terisi
+    //             filterQuery += `nama=${filterName}&harga_gte=${filterMin}&harga_lte=${filterMax}`;
+    //         } else {
+    //             // Kondisi jika form nama saja yang terisi
+    //             filterQuery += `nama=${filterName}`;
+    //         }
+    //     } else if (filterMax > 0 && filterMin > 0) {
+    //         filterQuery += `harga_gte=${filterMin}&harga_lte=${filterMax}`;
+    //     }
+
+    //     Axios.get(`${API_URL}/products${filterQuery}`)
+    //         .then((res) => {
+    //             console.log(res.data);
+    //             setDbProducts(res.data);
+    //         }).catch((err) => {
+    //             console.log(err)
+    //         })
+    // }
 
     // Cara 2
-    // const handleFilter = async() => {
-    //     try {
+    const handleFilter = async () => {
+        try {
+            let filterQuery = `?`;
+            if (filterName) {
+                if (filterMax > 0 && filterMin > 0) {
+                    // Kondisi jika form nama dan harga terisi
+                    filterQuery += `nama=${filterName}&harga_gte=${filterMin}&harga_lte=${filterMax}`;
+                } else {
+                    // Kondisi jika form nama saja yang terisi
+                    filterQuery += `nama=${filterName}`;
+                }
+            } else if (filterMax > 0 && filterMin > 0) {
+                filterQuery += `harga_gte=${filterMin}&harga_lte=${filterMax}`;
+            }
 
-    //     } catch (error) {
-    //      console.log(error)   
-    //     }
-    // }
+            let response = await Axios.get(`${API_URL}/products${filterQuery}`);
+
+            setDbProducts(response.data)
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <div>
@@ -94,8 +125,8 @@ const ProductsPage = (props) => {
                                 <FormGroup>
                                     <Label>Harga</Label>
                                     <div className="d-flex">
-                                        <Input type="number" id="numb1" value={filterMin} onChange={(e) => setFilterMin(parseInt(e.target.value))} placeholder="Minimum" />
-                                        <Input type="number" id="numb2" value={filterMax} onChange={(e) => setFilterMax(parseInt(e.target.value))} placeholder="Maksimum" />
+                                        <Input type="number" id="numb1" value={filterMin} onChange={(e) => setFilterMin(e.target.value)} placeholder="Minimum" />
+                                        <Input type="number" id="numb2" value={filterMax} onChange={(e) => setFilterMax(e.target.value)} placeholder="Maksimum" />
                                     </div>
                                 </FormGroup>
                                 <FormGroup>
