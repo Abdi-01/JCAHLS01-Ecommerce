@@ -12,9 +12,10 @@ const NavbarComponent = (props) => {
 
     const [dropOpen, setDropOpen] = React.useState(false)
 
-    const { username } = useSelector((state) => {
+    const { username, role } = useSelector((state) => {
         return {
-            username: state.usersReducer.username
+            username: state.usersReducer.username,
+            role: state.usersReducer.role
         }
     });
 
@@ -61,12 +62,27 @@ const NavbarComponent = (props) => {
                                         <DropdownItem>
                                             Profile
                                         </DropdownItem>
-                                        <DropdownItem>
-                                            Cart
-                                        </DropdownItem>
-                                        <DropdownItem>
-                                            Transactions
-                                        </DropdownItem>
+                                        {
+                                            role == "user" ?
+                                                <>
+                                                    <DropdownItem>
+                                                        Cart
+                                                    </DropdownItem>
+                                                    <DropdownItem>
+                                                        Transactions
+                                                    </DropdownItem>
+                                                </>
+                                                :
+                                                <>
+                                                    <DropdownItem>
+                                                        Management Products
+                                                    </DropdownItem>
+                                                    <DropdownItem>
+                                                        Management Transactions
+                                                    </DropdownItem>
+                                                </>
+
+                                        }
                                         <DropdownItem divider />
                                         <DropdownItem onClick={() => dispatch(logoutAction())}>
                                             Logout
