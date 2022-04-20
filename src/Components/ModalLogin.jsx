@@ -3,8 +3,13 @@ import {
     Button, FormGroup, Input, InputGroup,
     InputGroupText, Label, Modal, ModalBody
 } from 'reactstrap';
+import { loginAction } from '../redux/actions/usersAction';
+import { useDispatch } from 'react-redux';
+import Axios from 'axios';
+import { API_URL } from '../helper'
 
 const ModalLogin = (props) => {
+    const dispatch = useDispatch();
 
     const [inForm, setInForm] = React.useState({
         email: '',
@@ -35,7 +40,21 @@ const ModalLogin = (props) => {
     }
 
     const handleLogin = () => {
-        alert(`${inForm.email} ${inForm.password}`)
+        if (inForm.email == "" || inForm.password == "") {
+            alert("Fill in all form")
+        } else {
+            if (inForm.email.includes("@")) {
+                Axios.get(`${API_URL}/users?email=${inForm.email}&password=${inForm.password}`)
+                .then((response) => {
+                    dispatch(loginAction(response.data[0]));
+                    props.toggleOpen();
+                }).catch((error) => {
+                    console.log(error);
+                })
+            }else{
+                alert("Email wrong")
+            }
+        }
     }
 
     return (
