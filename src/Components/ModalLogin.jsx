@@ -45,13 +45,16 @@ const ModalLogin = (props) => {
         } else {
             if (inForm.email.includes("@")) {
                 Axios.get(`${API_URL}/users?email=${inForm.email}&password=${inForm.password}`)
-                .then((response) => {
-                    dispatch(loginAction(response.data[0]));
-                    props.toggleOpen();
-                }).catch((error) => {
-                    console.log(error);
-                })
-            }else{
+                    .then((response) => {
+                        // menyimpan data token pada browser
+                        localStorage.setItem("tokenIdUser", response.data[0].id)
+                        
+                        dispatch(loginAction(response.data[0]));
+                        props.toggleOpen();
+                    }).catch((error) => {
+                        console.log(error);
+                    })
+            } else {
                 alert("Email wrong")
             }
         }

@@ -14,6 +14,8 @@ export const usersReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state, ...action.payload
             }
+        case "LOGOUT":
+            return INITIAL_STATE
         default:
             return state;
     }
