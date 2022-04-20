@@ -13,6 +13,10 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { getProductsAction } from './redux/actions/productsAction';
 import { loginAction } from './redux/actions/usersAction';
+import TransactionsAdminPage from './Pages/TransactionsAdmin';
+import CartPage from './Pages/Cart';
+import TransactionsPage from './Pages/Transactions';
+import NotFoundPage from './Pages/404';
 // FUNCTIONAL COMPONENT
 // Initialize component
 function App() {
@@ -66,10 +70,18 @@ function App() {
         <Route path='/product/detail' element={<ProductDetail />} />
         {
           role == "admin" ?
-            <Route path='/products/admin' element={<ProductsAdmin />} />
+            <>
+              <Route path='/products/admin' element={<ProductsAdmin />} />
+              <Route path='/transactions/admin' element={<TransactionsAdminPage />} />
+            </>
             :
-            <></>
+            <>
+              <Route path='/cart' element={<CartPage />} />
+              <Route path='/transactions' element={<TransactionsPage />} />
+            </>
         }
+        <Route path='*' element={<NotFoundPage />} />
+
       </Routes>
     </div>
   );

@@ -65,19 +65,19 @@ const NavbarComponent = (props) => {
                                         {
                                             role == "user" ?
                                                 <>
-                                                    <DropdownItem>
+                                                    <DropdownItem onClick={() => navigate("/cart")}>
                                                         Cart
                                                     </DropdownItem>
-                                                    <DropdownItem>
+                                                    <DropdownItem onClick={() => navigate("/transactions")}>
                                                         Transactions
                                                     </DropdownItem>
                                                 </>
                                                 :
                                                 <>
-                                                    <DropdownItem>
+                                                    <DropdownItem onClick={() => navigate("/products/admin")}>
                                                         Management Products
                                                     </DropdownItem>
-                                                    <DropdownItem>
+                                                    <DropdownItem onClick={() => navigate("/transactions/admin")}>
                                                         Management Transactions
                                                     </DropdownItem>
                                                 </>
