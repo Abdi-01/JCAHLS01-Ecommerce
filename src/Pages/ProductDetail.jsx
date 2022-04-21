@@ -3,6 +3,7 @@ import Axios from 'axios';
 import { API_URL } from '../helper';
 import { Button, Collapse, Input, Toast, ToastBody, ToastHeader } from 'reactstrap';
 import { useNavigate, useLocation } from 'react-router-dom'
+import { useSelector } from 'react-redux';
 
 const ProductDetail = (props) => {
     const navigate = useNavigate();
@@ -12,7 +13,15 @@ const ProductDetail = (props) => {
     const [thumbnail, setThumbnail] = React.useState(0);
     const [selectedType, setSelectedType] = React.useState({});
     const [openType, setOpenType] = React.useState(false);
+    const [openToast, setOpenToast] = React.useState(false);
+    const [toastMsg, setToastMsg] = React.useState("");
     const [qty, setQty] = React.useState(1);
+
+    const { role } = useSelector((state) => {
+        return {
+            role: state.usersReducer.role
+        }
+    })
 
     React.useEffect(() => {
         getDetail()
@@ -53,10 +62,12 @@ const ProductDetail = (props) => {
             if (temp < selectedType.qty) {
                 setQty(temp += 1)
             } else {
-                alert("Stock tidak mencukupi")
+                setOpenToast(!openToast)
+                setToastMsg("Stock tidak mencukupi")
             }
-        }else{
-            alert("Pilih type terlebih dahulu")
+        } else {
+            setOpenToast(!openToast)
+            setToastMsg("Pilih type terlebih dahulu")
         }
     }
 
@@ -73,8 +84,35 @@ const ProductDetail = (props) => {
         }
     }
 
+    const handleAddToCart = () => {
+        if (role == "user") {
+            if (selectedType.type) {
+                // fungsi menambah produk kedalam keranjang
+            } else {
+                setOpenToast(!openToast)
+                setToastMsg("Pilih type terlebih dahulu")
+            }
+        } else {
+            setOpenToast(!openToast);
+            setToastMsg("Silahkan login sebagai user terlebih dahulu");
+        }
+
+    }
+
+    if (openToast) {
+        setTimeout(() => setOpenToast(!openToast), 3500)
+    }
+
     return (
         <div>
+            <Toast isOpen={openToast} style={{ position: "fixed", right: "10px" }}>
+                <ToastHeader icon="warning">
+                    Add to cart warning
+                </ToastHeader>
+                <ToastBody>
+                    <span>{toastMsg}</span>
+                </ToastBody>
+            </Toast>
             <div className="container row p-5 m-auto bg-white rounded">
                 {
                     detail.id &&
@@ -132,7 +170,13 @@ const ProductDetail = (props) => {
                                     </span>
                                 </span>
                             </div>
-                            <Button type="button" color="secondary" outline style={{ width: '100%' }} >Add to cart</Button>
+                            <Button
+                                type="button"
+                                color="secondary" outline
+                                onClick={handleAddToCart}
+                                style={{ width: '100%' }} >
+                                Masukkan ke Keranjang
+                            </Button>
                         </div>
                     </>
                 }
