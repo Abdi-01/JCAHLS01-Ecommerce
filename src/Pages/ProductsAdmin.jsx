@@ -30,11 +30,11 @@ const ProductsAdmin = (props) => {
         getAllProducts()
     }, []);
 
-    const getProducts = (paginate = 1) => {
-        Axios.get(`${API_URL}/products?_page=${paginate}&_limit=${limit}`)
+    const getProducts = (page = 1) => {
+        Axios.get(`${API_URL}/products?_page=${page}&_limit=${limit}`)
             .then((response) => {
                 console.log(response.data)
-                setPaginate(paginate)
+                setPaginate(page)
                 dispatch(getProductsAction(response.data))
             }).catch((error) => {
                 console.log(error);

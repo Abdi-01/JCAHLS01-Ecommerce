@@ -47,6 +47,32 @@ const ProductDetail = (props) => {
         })
     }
 
+    const handleInc = () => {
+        let temp = qty;
+        if (selectedType.qty) {
+            if (temp < selectedType.qty) {
+                setQty(temp += 1)
+            } else {
+                alert("Stock tidak mencukupi")
+            }
+        }else{
+            alert("Pilih type terlebih dahulu")
+        }
+    }
+
+    const handleDec = () => {
+        let temp = qty;
+        if (temp > 1) {
+            setQty(temp -= 1)
+        }
+    }
+
+    const handleQty = (e) => {
+        if (parseInt(e.target.value) > 0 && parseInt(e.target.value) < selectedType.qty) {
+            setQty(parseInt(e.target.value))
+        }
+    }
+
     return (
         <div>
             <div className="container row p-5 m-auto bg-white rounded">
@@ -97,11 +123,11 @@ const ProductDetail = (props) => {
                             <div className="d-flex justify-content-between align-items-center mb-3">
                                 <span>Jumlah :</span>
                                 <span style={{ width: '30%', display: 'flex', alignItems: 'center' }}>
-                                    <span className="material-icons p-1 text-white shadow-sm" style={{ cursor: 'pointer', backgroundColor: "#9C867B", borderRadius: "45px" }} >
+                                    <span className="material-icons p-1 text-white shadow-sm" onClick={handleDec} style={{ cursor: 'pointer', backgroundColor: "#9C867B", borderRadius: "45px" }} >
                                         remove
                                     </span>
-                                    <Input size="sm" placeholder="qty" value={qty} style={{ width: "40%", fontSize: "24px", fontWeight: "bolder", textAlign: "center", border: 0 }} />
-                                    <span className="material-icons p-1 text-white shadow-sm" style={{ cursor: 'pointer', backgroundColor: "#9C867B", borderRadius: "45px" }} >
+                                    <Input size="sm" placeholder="qty" value={qty} onChange={handleQty} style={{ width: "40%", fontSize: "24px", fontWeight: "bolder", textAlign: "center", border: 0 }} />
+                                    <span className="material-icons p-1 text-white shadow-sm" onClick={handleInc} style={{ cursor: 'pointer', backgroundColor: "#9C867B", borderRadius: "45px" }} >
                                         add
                                     </span>
                                 </span>
