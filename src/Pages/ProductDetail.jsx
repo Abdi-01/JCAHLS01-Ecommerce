@@ -17,9 +17,10 @@ const ProductDetail = (props) => {
     const [toastMsg, setToastMsg] = React.useState("");
     const [qty, setQty] = React.useState(1);
 
-    const { role } = useSelector((state) => {
+    const { role, id } = useSelector((state) => {
         return {
-            role: state.usersReducer.role
+            role: state.usersReducer.role,
+            id: state.usersReducer.id,
         }
     })
 
@@ -88,6 +89,22 @@ const ProductDetail = (props) => {
         if (role == "user") {
             if (selectedType.type) {
                 // fungsi menambah produk kedalam keranjang
+                let product = {
+                    idProduct: detail.id,
+                    img: detail.images[0],
+                    nama: detail.nama,
+                    type: selectedType.type,
+                    qty,
+                    harga: detail.harga
+                }
+                // console.log("add to cart", product)
+                Axios.patch(`${API_URL}/users/${id}`, {
+                    cart: [product]
+                }).then((res) => {
+                    alert("Add product success ✅")
+                }).catch((err) => {
+                    console.log(err)
+                })
             } else {
                 setOpenToast(!openToast)
                 setToastMsg("Pilih type terlebih dahulu")
