@@ -92,14 +92,19 @@ const ProductDetail = (props) => {
         if (role == "user") {
             if (selectedType.type) {
                 // fungsi menambah produk kedalam keranjang
-                cart.push({
-                    idProduct: detail.id,
-                    img: detail.images[0],
-                    nama: detail.nama,
-                    type: selectedType.type,
-                    qty,
-                    harga: detail.harga
-                });
+                let filterCart = cart.findIndex((val, idx) => val.idProduct == detail.id && val.type == selectedType.type)
+                if (filterCart >= 0) {
+                    cart[filterCart].qty += qty
+                } else {
+                    cart.push({
+                        idProduct: detail.id,
+                        img: detail.images[0],
+                        nama: detail.nama,
+                        type: selectedType.type,
+                        qty,
+                        harga: detail.harga
+                    });
+                }
 
                 Axios.patch(`${API_URL}/users/${id}`, {
                     cart
