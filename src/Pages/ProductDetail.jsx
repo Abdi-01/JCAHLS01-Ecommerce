@@ -3,10 +3,12 @@ import Axios from 'axios';
 import { API_URL } from '../helper';
 import { Button, Collapse, Input, Toast, ToastBody, ToastHeader } from 'reactstrap';
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateCartAction } from '../redux/actions/usersAction';
 
 const ProductDetail = (props) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const { state, search } = useLocation()
 
     const [detail, setDetail] = React.useState({});
@@ -17,10 +19,11 @@ const ProductDetail = (props) => {
     const [toastMsg, setToastMsg] = React.useState("");
     const [qty, setQty] = React.useState(1);
 
-    const { role, id } = useSelector((state) => {
+    const { role, id, cart } = useSelector((state) => {
         return {
             role: state.usersReducer.role,
             id: state.usersReducer.id,
+            cart: state.usersReducer.cart
         }
     })
 
@@ -89,18 +92,20 @@ const ProductDetail = (props) => {
         if (role == "user") {
             if (selectedType.type) {
                 // fungsi menambah produk kedalam keranjang
-                let product = {
+                cart.push({
                     idProduct: detail.id,
                     img: detail.images[0],
                     nama: detail.nama,
                     type: selectedType.type,
                     qty,
                     harga: detail.harga
-                }
-                // console.log("add to cart", product)
+                });
+
                 Axios.patch(`${API_URL}/users/${id}`, {
-                    cart: [product]
+                    cart
                 }).then((res) => {
+                    // console.log(res.data)
+                    dispatch(updateCartAction(res.data.cart))
                     alert("Add product success ✅")
                 }).catch((err) => {
                     console.log(err)

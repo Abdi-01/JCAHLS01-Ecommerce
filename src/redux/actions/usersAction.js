@@ -6,6 +6,13 @@ export const loginAction = (data) => {
     }
 }
 
+export const updateCartAction = (data) => {
+    return {
+        type: "UPDATE_CART",
+        payload: data
+    }
+}
+
 export const logoutAction = () => {
     localStorage.removeItem("tokenIdUser")
     return {
