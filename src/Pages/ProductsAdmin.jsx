@@ -5,11 +5,13 @@ import { ButtonGroup, FormGroup, Input, Label, Button } from 'reactstrap';
 import ModalDetail from '../Components/ModalDetail';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProductsAction } from '../redux/actions/productsAction';
+import ModalAddProduct from '../Components/ModalAddProduct';
 
 const ProductsAdmin = (props) => {
     const dispatch = useDispatch();
     const [dbProducts, setDbProducts] = React.useState([]);
     const [openDetail, setOpenDetail] = React.useState(false);
+    const [openAdd, setOpenAdd] = React.useState(false);
     const [selectedIdx, setSelectedIdx] = React.useState(null);
     const [paginate, setPaginate] = React.useState(1);
     const [limit, setLimit] = React.useState(5);
@@ -182,7 +184,15 @@ const ProductsAdmin = (props) => {
 
     return (
         <div className='container py-4'>
-            <h3>Products Admin</h3>
+            <div className='d-flex justify-content-between'>
+                <h3>Products Admin</h3>
+                <Button type='button'  color='success' onClick={() => setOpenAdd(!openAdd)}>
+                    <span className="material-icons text-white shadow-sm"  >
+                        add
+                    </span>
+                </Button>
+            </div>
+            <ModalAddProduct openModal={openAdd} toggle={() => setOpenAdd(!openAdd)} />
             {
                 selectedIdx >= 0 && selectedIdx != null ?
                     <ModalDetail
