@@ -12,7 +12,7 @@ import { API_URL } from './helper';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { getProductsAction } from './redux/actions/productsAction';
-import { loginAction } from './redux/actions/usersAction';
+import { loginAction, keepLogin } from './redux/actions/usersAction';
 import TransactionsAdminPage from './Pages/TransactionsAdmin';
 import CartPage from './Pages/Cart';
 import TransactionsPage from './Pages/Transactions';
@@ -41,21 +41,8 @@ function App() {
       })
   }
 
-  const keepLogin = () => {
-    let token = localStorage.getItem("tokenIdUser")
-    if (token) {
-      Axios.get(`${API_URL}/users?id=${token}`)
-        .then((res) => {
-          localStorage.setItem("tokenIdUser", res.data[0].id)
-          dispatch(loginAction(res.data[0]));
-        }).catch((error) => {
-          console.log(error);
-        })
-    }
-  }
-
   React.useEffect(() => {
-    keepLogin();
+    dispatch(keepLogin());
     getProducts();
   }, [])
 

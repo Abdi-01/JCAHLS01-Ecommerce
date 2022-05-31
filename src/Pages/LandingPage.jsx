@@ -33,11 +33,11 @@ class LandingPage extends React.Component {
     // Urutan render component 3️⃣ componentDidMount
     // untuk menjalankan fungsi pertama kali ketika component dirender
     componentDidMount() {
-        this.getBanner();
+        // this.getBanner();
     }
 
     getBanner = () => {
-        Axios.get(`${API_URL}/banner`)
+        Axios.get(`${API_URL}/banner/get`)
             .then((response) => {
                 // jika berhasil mendapatkan response
                 console.log("From Class COmponent :", response.data);

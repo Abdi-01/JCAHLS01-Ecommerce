@@ -1,8 +1,7 @@
 const INITIAL_STATE = {
-    id: null,
+    iduser: null,
     username: "",
     email: "",
-    password: "",
     role: "",
     cart: []
 }

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { UncontrolledCarousel } from 'reactstrap';
 import Axios from 'axios';
-
-const API_URL = "http://localhost:5000";
+import { API_URL } from '../helper';
 
 const Banner = (props) => {
 
@@ -14,9 +13,9 @@ const Banner = (props) => {
     }, [])
 
     const getBanner = () => {
-        Axios.get(`${API_URL}/banner`)
+        Axios.get(`${API_URL}/banner/get`)
             .then((response) => {
-                console.log("From Functional COmponent :", response.data)
+                console.log("From Functional Component :", response.data)
                 setBannerList(response.data);
             }).catch((error) => {
                 console.log(error);

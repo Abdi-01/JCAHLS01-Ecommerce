@@ -44,12 +44,15 @@ const ModalLogin = (props) => {
             alert("Fill in all form")
         } else {
             if (inForm.email.includes("@")) {
-                Axios.get(`${API_URL}/users?email=${inForm.email}&password=${inForm.password}`)
+                Axios.post(`${API_URL}/users/login`,{
+                    email:inForm.email,
+                    password:inForm.password
+                })
                     .then((response) => {
                         // menyimpan data token pada browser
-                        localStorage.setItem("tokenIdUser", response.data[0].id)
+                        localStorage.setItem("tokenIdUser", response.data.iduser)
                         
-                        dispatch(loginAction(response.data[0]));
+                        dispatch(loginAction(response.data));
                         props.toggleOpen();
                     }).catch((error) => {
                         console.log(error);

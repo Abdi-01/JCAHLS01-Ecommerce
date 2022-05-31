@@ -182,6 +182,8 @@ const ProductsAdmin = (props) => {
         return btn;
     }
 
+    console.log(selectedIdx)
+
     return (
         <div className='container py-4'>
             <div className='d-flex justify-content-between'>
@@ -198,7 +200,7 @@ const ProductsAdmin = (props) => {
                     <ModalDetail
                         openDetail={openDetail}
                         toggle={handleToggle}
-                        data={dbProducts[selectedIdx]}
+                        data={products[selectedIdx]}
                     />
                     :
                     null
