@@ -26,7 +26,6 @@ const VerificationPage = (props) => {
         } catch (error) {
             console.log(error)
         }
-
     }
 
     return (

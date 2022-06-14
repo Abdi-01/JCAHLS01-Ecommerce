@@ -4,6 +4,8 @@ import ModalLogin from './ModalLogin';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { logoutAction } from '../redux/actions/usersAction';
+import Axios from 'axios';
+import { API_URL } from '../helper';
 
 const NavbarComponent = (props) => {
 
@@ -22,6 +24,24 @@ const NavbarComponent = (props) => {
 
     const [openCollapse, setOpenCollapse] = React.useState(false)
     const [openLogin, setOpenLogin] = React.useState(false)
+
+    const handleReVerified = async () => {
+        try {
+            let token = localStorage.getItem("tokenIdUser")
+            if (token) {
+                let res = await Axios.get(`${API_URL}/users/reverified`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                if (res.data.success) {
+                    alert('Resend verification success ✅')
+                }
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <div className='bg-light'>
@@ -60,18 +80,21 @@ const NavbarComponent = (props) => {
                                         {username}
                                     </DropdownToggle>
                                     <DropdownMenu end>
-                                        <DropdownItem disabled>
+                                        <DropdownItem onClick={handleReVerified} disabled={status == "Verified"}>
                                             <div className='d-flex'>
-                                                <span class="material-icons" style={{ color: status == "Verified" ? "#48dbfb" : "red" }}>
-                                                  {
-                                                    status == "Verified" ?
-                                                    "beenhere"
-                                                    :
-                                                    "gpp_bad"
-                                                  }  
+                                                <span class="material-icons m-0" style={{ color: status == "Verified" ? "#48dbfb" : "red" }}>
+                                                    {
+                                                        status == "Verified" ?
+                                                            "beenhere"
+                                                            :
+                                                            "gpp_bad"
+                                                    }
                                                 </span>
-                                                <p>{status}</p>
+                                                <p className='m-0'>{status}</p>
                                             </div>
+                                            {
+                                                status != "Verified" && <small className='text-muted'>Request verification</small>
+                                            }
                                         </DropdownItem>
                                         <DropdownItem>
                                             Profile
