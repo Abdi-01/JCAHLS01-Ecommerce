@@ -12,10 +12,11 @@ const NavbarComponent = (props) => {
 
     const [dropOpen, setDropOpen] = React.useState(false)
 
-    const { username, role } = useSelector((state) => {
+    const { username, role, status } = useSelector((state) => {
         return {
             username: state.usersReducer.username,
-            role: state.usersReducer.role
+            role: state.usersReducer.role,
+            status: state.usersReducer.status
         }
     });
 
@@ -59,6 +60,19 @@ const NavbarComponent = (props) => {
                                         {username}
                                     </DropdownToggle>
                                     <DropdownMenu end>
+                                        <DropdownItem disabled>
+                                            <div className='d-flex'>
+                                                <span class="material-icons" style={{ color: status == "Verified" ? "#48dbfb" : "red" }}>
+                                                  {
+                                                    status == "Verified" ?
+                                                    "beenhere"
+                                                    :
+                                                    "gpp_bad"
+                                                  }  
+                                                </span>
+                                                <p>{status}</p>
+                                            </div>
+                                        </DropdownItem>
                                         <DropdownItem>
                                             Profile
                                         </DropdownItem>

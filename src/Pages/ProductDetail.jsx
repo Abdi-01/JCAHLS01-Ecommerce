@@ -36,7 +36,7 @@ const ProductDetail = (props) => {
         Axios.get(`${API_URL}/products${search}`)
             .then((response) => {
                 // jika berhasil mendapatkan response
-                console.log("Detail Product :", response.data);
+                console.log("Detail Product :", response.data[0]);
                 setDetail(response.data[0])
             }).catch((error) => {
                 // jika tidak berhasil mendapatkan response
@@ -49,7 +49,7 @@ const ProductDetail = (props) => {
         return images.map((item, index) => {
             return (
                 <div className='col-3 col-md-12'>
-                    <img className="select-image mb-1 shadow bg-white rounded" src={item}
+                    <img className="select-image mb-1 shadow bg-white rounded" src={item.urlImg}
                         key={index}
                         width="100%"
                         onClick={() => setThumbnail(index)}
@@ -92,12 +92,12 @@ const ProductDetail = (props) => {
         if (role == "user") {
             if (selectedType.type) {
                 // fungsi menambah produk kedalam keranjang
-                let filterCart = cart.findIndex((val, idx) => val.idProduct == detail.id && val.type == selectedType.type)
+                let filterCart = cart.findIndex((val, idx) => val.idProduct == detail.idproduct && val.type == selectedType.type)
                 if (filterCart >= 0) {
                     cart[filterCart].qty += qty
                 } else {
                     cart.push({
-                        idProduct: detail.id,
+                        idProduct: detail.idproduct,
                         img: detail.images[0],
                         nama: detail.nama,
                         type: selectedType.type,
@@ -142,11 +142,11 @@ const ProductDetail = (props) => {
             </Toast>
             <div className="container row p-5 m-auto bg-white rounded">
                 {
-                    detail.id &&
+                    detail.idproduct &&
                     <>
                         <div className="row col-md-8 text-center">
                             <div className="col-12 order-md-2 col-md-10">
-                                <img className="shadow-sm bg-white rounded" src={detail.images[thumbnail]} width="100%" />
+                                <img className="shadow-sm bg-white rounded" src={detail.images[thumbnail].urlImg} width="100%" />
                             </div>
                             <div className="col-12 order-md-1 col-md-2">
                                 <div className='row my-2 my-md-0'>
@@ -167,7 +167,7 @@ const ProductDetail = (props) => {
                                     Type: {selectedType.type}</div>
                                 <Collapse isOpen={openType}>
                                     {
-                                        detail.stock.map((item, index) => {
+                                        detail.stocks.map((item, index) => {
                                             return (
                                                 <div>
                                                     <Button outline color="secondary" size="sm"

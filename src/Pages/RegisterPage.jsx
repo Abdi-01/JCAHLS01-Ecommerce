@@ -24,12 +24,11 @@ const RegisterPage = (props) => {
                     alert("Password not match")
                 } else if (email.includes("@")) {
 
-                    let res = await Axios.post(`${API_URL}/users`, {
+                    let res = await Axios.post(`${API_URL}/users/regis`, {
                         username,
                         email,
                         password,
-                        role: "user",
-                        cart: []
+                        role: "user"
                     })
 
                     // Auto login ketika register berhasil

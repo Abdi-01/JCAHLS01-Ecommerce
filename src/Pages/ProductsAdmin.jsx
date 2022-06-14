@@ -33,7 +33,7 @@ const ProductsAdmin = (props) => {
     }, []);
 
     const getProducts = (page = 1) => {
-        Axios.get(`${API_URL}/products?_page=${page}&_limit=${limit}`)
+        Axios.get(`${API_URL}/products`)
             .then((response) => {
                 console.log(response.data)
                 setPaginate(page)
@@ -57,11 +57,11 @@ const ProductsAdmin = (props) => {
     const printProducts = () => {
         return products.map((value, index) => {
             let totalStocks = 0;
-            value.stock.forEach(val => totalStocks += val.qty);
+            value.stocks.forEach(val => totalStocks += val.qty);
 
             return <tr key={value.id} className="align-middle">
                 <th>{paginate > 1 ? (paginate - 1) * limit + index + 1 : index + 1}</th>
-                <td><img alt={`${value.id}-${value.nama}`} width="150px" src={value.images[0]} /></td>
+                <td><img alt={`${value.id}-${value.nama}`} width="150px" src={value.images[0].urlImg} /></td>
                 <td>
                     <h5 className='fw-bold'>
                         {value.nama}

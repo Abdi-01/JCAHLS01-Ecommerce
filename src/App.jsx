@@ -17,6 +17,7 @@ import TransactionsAdminPage from './Pages/TransactionsAdmin';
 import CartPage from './Pages/Cart';
 import TransactionsPage from './Pages/Transactions';
 import NotFoundPage from './Pages/404';
+import VerificationPage from './Pages/verification';
 // FUNCTIONAL COMPONENT
 // Initialize component
 function App() {
@@ -55,6 +56,7 @@ function App() {
         <Route path='/register' element={<RegisterPage />} />
         <Route path='/products' element={<ProductsPage />} />
         <Route path='/product/detail' element={<ProductDetail />} />
+        <Route path='/verification/:token' element={<VerificationPage />} />
         {
           role == "admin" ?
             <>

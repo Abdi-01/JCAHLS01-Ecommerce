@@ -2,6 +2,7 @@ import axios from "axios"
 import { API_URL } from "../../helper"
 
 export const loginAction = (data) => {
+    localStorage.setItem("tokenIdUser", data.token);
     return {
         type: "LOGIN_SUCCESS",
         payload: data
@@ -29,8 +30,10 @@ export const keepLogin = () => {
 
             // Memeriksa adanya token
             if (token) {
-                let res = await axios.post(`${API_URL}/users/keep`, {
-                    iduser: token
+                let res = await axios.get(`${API_URL}/users/keep`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
                 })
                 // Memeriksa adanya data user atau tidak
                 if (res.data.iduser) {

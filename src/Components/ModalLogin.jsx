@@ -49,8 +49,9 @@ const ModalLogin = (props) => {
                     password:inForm.password
                 })
                     .then((response) => {
+                        console.log(response.data)
                         // menyimpan data token pada browser
-                        localStorage.setItem("tokenIdUser", response.data.iduser)
+                        localStorage.setItem("tokenIdUser", response.data.token)
                         
                         dispatch(loginAction(response.data));
                         props.toggleOpen();

@@ -40,17 +40,17 @@ const ProductsPage = (props) => {
 
     const printProducts = () => {
         return products.map((value, index) => {
-            return <div key={value.id} className="col-12 col-md-6 col-lg-4 p-2">
+            return <div key={value.idproduct} className="col-12 col-md-6 col-lg-4 p-2">
                 <Card className='border-0 bg-transparent'>
                     <CardImg
-                        onClick={() => navigate(`/product/detail?id=${value.id}`)}
+                        onClick={() => navigate(`/product/detail?idproduct=${value.idproduct}`)}
 
                         // onClick={() => navigate('/product/detail', {
                         //     state: value
                         // })}
                         className='shadow'
                         style={{ borderRadius: "15px" }}
-                        src={value.images[0]} />
+                        src={value.images[0].urlImg} />
                     <CardBody>
                         <h6 className='fw-bold text-center my-0'>{value.nama}</h6>
                         <p className='text-muted text-center my-0'>{value.kategori}</p>

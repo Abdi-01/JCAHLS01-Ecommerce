@@ -7,6 +7,12 @@ const ModalAddProduct = (props) => {
 
     const [stocks, setStocks] = React.useState([]);
     const [images, setImages] = React.useState([]);
+    const [defaultImg, setDefaultImg] = React.useState('https://kubalubra.is/wp-content/uploads/2017/11/default-thumbnail.jpg');
+    const [nama, setNama] = React.useState(null);
+    const [brand, setBrand] = React.useState(null);
+    const [kategori, setKategori] = React.useState(null);
+    const [harga, setHarga] = React.useState(null);
+    const [deskripsi, setDeskripsi] = React.useState(null);
 
     const onBtDeleteStock = (index) => {
         let temp = [...stocks]
@@ -34,8 +40,9 @@ const ModalAddProduct = (props) => {
     }
 
     const handleImages = (e, index) => {
+        console.log(e.target.files[0]);
         let temp = [...images]
-        temp[index] = e.target.value
+        temp[index] = e.target.files[0]
         setImages(temp)
     }
 
@@ -66,17 +73,53 @@ const ModalAddProduct = (props) => {
     const printImages = () => {
         if (images.length > 0) {
             return images.map((item, index) => {
-                return <div className='d-flex my-2'>
+                return <div className='col-6'>
+                    <img
+                        id="imagePreview"
+                        width="100%"
+                        height="150px"
+                        style={{ objectFit: 'cover' }}
+                        src={item ? URL.createObjectURL(item) : defaultImg} />
                     <Input
-                        type="text"
+                        type="file"
                         placeholder={`Select Images-${index + 1}`}
                         onChange={(e) => handleImages(e, index)}
                     />
-                    <a className="btn btn-outline-danger" onClick={() => onBtDeleteImage(index)} style={{ cursor: 'pointer' }}>Delete</a>
+                    <a className="btn btn-outline-danger w-100" onClick={() => onBtDeleteImage(index)} style={{ cursor: 'pointer' }}>Delete</a>
 
                 </div>
             })
         }
+    }
+
+    const onBtSubmit = async () => {
+        try {
+            let formData = new FormData();
+            let data = {
+                nama,
+                brand,
+                kategori,
+                harga,
+                deskripsi,
+                stocks
+            }
+            console.log(data);
+            // Menambahkan data kedalam formData
+            formData.append('data', JSON.stringify(data));
+
+            // Menambahkan images
+            images.forEach(val => formData.append('images', val));
+            let res = await Axios.post(`${API_URL}/products`, formData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            console.log(res.data);
+        } catch (error) {
+            console.log(error);
+        }
+
     }
 
     return (
@@ -90,13 +133,13 @@ const ModalAddProduct = (props) => {
                     <div className='col-12 col-md-6'>
                         <FormGroup>
                             <Label for="textNama">Nama Product</Label>
-                            <Input type="text" id="textNama" />
+                            <Input type="text" id="textNama" value={nama} onChange={(e) => setNama(e.target.value)} />
                         </FormGroup>
                         <Row>
                             <Col>
                                 <FormGroup>
                                     <Label for="selectBrand">Brand</Label>
-                                    <Input type="select" id="selectBrand" >
+                                    <Input type="select" id="selectBrand" value={brand} onChange={(e) => setBrand(e.target.value)}>
                                         <option value={null} >Choose...</option>
                                         <option value="IKEA" >IKEA</option>
                                         <option value="ACE" >ACE</option>
@@ -107,7 +150,7 @@ const ModalAddProduct = (props) => {
                             <Col>
                                 <FormGroup>
                                     <Label for="textKategori">Kategori</Label>
-                                    <Input type="select" id="selectBrand" >
+                                    <Input type="select" id="selectBrand" value={kategori} onChange={(e) => setKategori(e.target.value)}>
                                         <option value={null} >Choose...</option>
                                         <option value="Livingroom" >Livingroom</option>
                                         <option value="Kitchen" >Kitchen</option>
@@ -118,11 +161,11 @@ const ModalAddProduct = (props) => {
                         </Row>
                         <FormGroup>
                             <Label for="textHarga">Harga</Label>
-                            <Input type="number" id="textHarga" />
+                            <Input type="number" id="textHarga" value={harga} onChange={(e) => setHarga(parseInt(e.target.value))} />
                         </FormGroup>
                         <FormGroup>
                             <Label for="textDes">Deskripsi</Label>
-                            <Input type="textarea" id="textDes" />
+                            <Input type="textarea" id="textDes" value={deskripsi} onChange={(e) => setDeskripsi(e.target.value)} />
                         </FormGroup>
                     </div>
                     <div className='col-12 col-md-6'>
@@ -143,7 +186,7 @@ const ModalAddProduct = (props) => {
                 </div>
             </ModalBody>
             <ModalFooter>
-                <Button type="button" color="primary">Submit</Button>{' '}
+                <Button type="button" color="primary" onClick={onBtSubmit}>Submit</Button>
                 <Button color="secondary" onClick={props.toggle}>Cancel</Button>
             </ModalFooter>
         </Modal>)

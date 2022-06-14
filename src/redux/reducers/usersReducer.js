@@ -3,6 +3,7 @@ const INITIAL_STATE = {
     username: "",
     email: "",
     role: "",
+    status: "",
     cart: []
 }
 
